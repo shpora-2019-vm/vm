@@ -13,15 +13,14 @@ namespace Packer
         {
             var dirs = args.Length > 0 ? args : new[] {@"."};
 
-            var ignoredPatterns = new[] {@"bin\\", @"obj\\"};
+            var ignoredPatterns = new[] {@"bin\\", @"obj\\", @"bin\/", @"obj\/"};
             var sources =
                 dirs.SelectMany(
                         dir =>
                             Directory
                                 .EnumerateFiles(dir, "*.cs", SearchOption.AllDirectories)
                                 .Where(fn => !ignoredPatterns.Any(p => Regex.IsMatch(fn, p, RegexOptions.IgnoreCase)))
-                                .Select(fn => fn.ToLower())
-                                .Select(fn => new {name = fn.ToLower(), src = File.ReadAllText(fn)}))
+                                .Select(fn => new {name = fn, src = File.ReadAllText(fn)}))
                     .OrderByDescending(x => File.GetLastAccessTimeUtc(x.name))
                     .ToList();
 
