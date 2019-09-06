@@ -43,7 +43,7 @@ namespace VirtualMachine.SimpleAssembler
 			{
 				var hex = match.Groups["value"].Value;
 				yield return new Token(lineIndex, TokenType.HexWord, hex);
-				payload = payload.Substring(hex.Length);
+				payload = payload.Substring(hex.Length + 1);
 			}
 			else
 			{
